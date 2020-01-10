@@ -12,12 +12,14 @@ import com.dfcs.supermarket.main.service.IGoodsService;
 import com.dfcs.supermarket.main.service.IGoodsUserService;
 import com.dfcs.supermarket.main.service.IUserService;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,18 +87,30 @@ public class UserController {
         return BaseResponse.ok(list);
     }
 
+    /**
+     * 预约
+     * @param goodsUsers
+     * @param request
+     * @return
+     */
     @PostMapping("/appointment")
     @Transactional
     public BaseResponse<String> appointment(
-            @RequestBody List<GoodsUser> goodsUsers
+            @RequestBody List<GoodsUser> goodsUsers,
+            HttpServletRequest request
     ){
         try {
+            String token = request.getHeader("token");
+            JSONObject jsonObject = JSONObject.parseObject(JwtHelper.validateLogin(token));
+            Long userId = jsonObject.getLong("userId");
             String pickupCode = "0";
-            while(null != goodsUserService.getOne(new QueryWrapper<GoodsUser>().eq("pickup_code",pickupCode).eq("state",1))){
+            do{
                 String random = String.valueOf(Math.random() * 900000 + 100000);
                 String ran = random.substring(0,random.lastIndexOf("."));
                 pickupCode = ran;
             }
+            while(!CollectionUtils.isEmpty(goodsUserService.getBaseMapper().selectList(new QueryWrapper<GoodsUser>().eq("pickup_code",pickupCode).eq("state",1))));
+            List<Goods> goodsList = new ArrayList<>();
             for (GoodsUser goodsUser : goodsUsers) {
                 Goods goods = goodsService.getById(goodsUser.getGoodsId());
                 if(goods.getGoodsNum() <= 0){
@@ -108,22 +123,29 @@ public class UserController {
                 if(0 == goods.getGoodsNum() || goods.getGoodsNum().equals(0)){
                     goods.setState(0);
                 }
-                goodsService.updateById(goods);
+                goodsList.add(goods);
+                goodsUser.setUserId(userId);
                 goodsUser.setState(1);
                 goodsUser.setCreateTime(new Date());
                 goodsUser.setExtraAmount(new BigDecimal("0"));
                 goodsUser.setGoodsAmount(goods.getGoodsPrice().multiply(new BigDecimal(goodsUser.getNum())));
                 goodsUser.setSumAmount(goodsUser.getGoodsAmount().add(new BigDecimal("0")));
                 goodsUser.setPickupCode(pickupCode);
+                goodsUser.setUpdateTime(new Date());
             }
+            goodsService.updateBatchById(goodsList);
+            goodsUserService.saveBatch(goodsUsers);
+            User user = userService.getById(userId);
+            user.setCodes(pickupCode.concat(",").concat(StringUtils.isNotBlank(user.getCodes())?user.getCodes():""));
+            if(user.getCodes().endsWith(",")){
+                user.setCodes(user.getCodes().substring(0,user.getCodes().length()-1));
+            }
+            userService.updateById(user);
             return BaseResponse.ok(pickupCode);
         }catch (Exception e){
+            e.printStackTrace();
             return BaseResponse.err("预约异常");
         }
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }
