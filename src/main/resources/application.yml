@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: manage-backed
+#  jackson:
+    #设置空如何序列化
+    defaultPropertyInclusion: NON_NULL
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  typeAliasesPackage: com.fd.lasagna.basecore.main.entity.*
+  configuration:
+    map-underscore-to-camel-case: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true

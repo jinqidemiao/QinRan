@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dfcs.supermarket.main.mapper.LinkMapper">
+
+    <select id="linkList" resultType="com.dfcs.supermarket.main.entity.Link">
+        SELECT
+            link.*,
+            son.goods_names
+        FROM
+            link
+            LEFT JOIN ( SELECT GROUP_CONCAT( goods_name ) AS goods_names, goods_link_id FROM goods GROUP BY goods_link_id ) son ON son.goods_link_id = link.id
+        where 1 = 1
+        <if test="link != null and link != ''">
+            and link like concat('%',#{link},'%')
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+    </select>
+
+</mapper>
