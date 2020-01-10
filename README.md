@@ -1,5 +1,5 @@
 # QinRan
-[！[ 通过https://gitter.im/qinrande/community加入聊天 ]（https://badges.gitter.im/qinrande/community.svg)](https://gitter.im/qinrande/community？ utm_source =徽章＆utm_medium =徽章＆utm_campaign = pr-徽章＆utm_content =徽章）
+
 ## 简介
   **暂无介绍**
 ## 目标
