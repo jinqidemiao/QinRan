@@ -1,5 +1,8 @@
 # QinRan
 <p align="center">
+	<a href="https://github.com/jinqidemiao/QinRan"><img src="logo.jpg" style="zoom:25%;"></a>
+</p>
+<p align="center">
 	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
 		<img src="https://img.shields.io/badge/JDK-8+-green.svg" />
 	</a>
@@ -10,6 +13,7 @@
         <img src="https://badges.gitter.im/qin_ran/community.svg">
     </a>
 </p>
+
 ## 简介
   **暂无介绍**
 ## 目标
