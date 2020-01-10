@@ -1,5 +1,15 @@
 # QinRan
-[![Join the chat at https://gitter.im/qin_ran/community](https://badges.gitter.im/qin_ran/community.svg)](https://gitter.im/qin_ran/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<p align="center">
+	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
+		<img src="https://img.shields.io/badge/JDK-8+-green.svg" />
+	</a>
+    <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">
+        <img src="https://img.shields.io/hexpm/l/plug.svg">
+    </a>
+    <a target="_blank" href="https://gitter.im/qin_ran/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+        <img src="https://badges.gitter.im/qin_ran/community.svg">
+    </a>
+</p>
 ## 简介
   **暂无介绍**
 ## 目标
@@ -7,7 +17,6 @@
 ### 超市预约
 
 #### 1. 用户操作流程（用户首页-商品详情页-确认详情页）
-
 
 - 预约商品链接界面 
 - 点击进入商品界面 
