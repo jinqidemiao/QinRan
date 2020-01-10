@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author caoxinyu
@@ -95,5 +95,10 @@ public class GoodsUser implements Serializable {
 
     @TableField(exist = false)
     private User user;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 
 }
