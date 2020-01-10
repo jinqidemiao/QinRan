@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<iframe id="geoPage" width=0 height=0 frameborder=0  style="display:none;" scrolling="no"
+        src="https://apis.map.qq.com/tools/geolocation?key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp">
+</iframe>
+</body>
+
+<script>
+    window.addEventListener('message', function(event) {
+        // 接收位置信息
+        var loc = event.data;
+        console.log('location', loc);
+    }, false)       ;
+    setTimeout(function() {
+        if (!_this.loc) {
+            console.log('定位超时')
+        }
+    }, 6000) // 6s为推荐值，业务调用方可根据自己的需求设置改时间，不建议太短
+</script>
+</html>

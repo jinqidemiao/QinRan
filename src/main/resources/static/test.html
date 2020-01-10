@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>东风超市后台管理系统</title>
+</head>
+<script>
+    $.post('http://localhost:8080/main/goods/goodsList', function(goods) {
+
+        document.body.innerText = goods;
+
+    });
+</script>
+<body>
+
+</body>
+</html>
+</html>

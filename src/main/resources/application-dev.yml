@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://47.105.151.169:3306/mall_test?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=CTT
+    username: root
+    password: xffobmOV
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: manage-backed
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  typeAliasesPackage: com.fd.lasagna.basecore.main.entity.*
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+redisson:
+  address: redis://39.108.97.22:6379
+  password: fdtest2016 #Redis服务器连接密码（默认为空）
+
+upload:
+  file:
+    path: D:\\
