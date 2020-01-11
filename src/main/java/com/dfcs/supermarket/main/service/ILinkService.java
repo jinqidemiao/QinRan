@@ -14,6 +14,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-01-09
  */
 public interface ILinkService extends IService<Link> {
-
-    IPage<Link> linkList(Page<Link> pagination, Integer state, String link);
+	
+	/**
+	 * 链接列表
+	 *
+	 * @param pagination 分页
+	 * @param state 状态
+	 * @param link 链接
+	 *
+	 * @return {@link IPage<Link>}
+	 */
+	IPage<Link> linkList(Page<Link> pagination, Integer state, String link);
 }

@@ -17,3 +17,5 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
+server:
+  port: 8099

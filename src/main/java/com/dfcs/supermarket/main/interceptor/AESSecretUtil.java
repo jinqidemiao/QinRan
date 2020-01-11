@@ -41,11 +41,13 @@ public class AESSecretUtil {
                 SecretKey secretKey = keyGenerator.generateKey();
                 byte[] enCodeFormat = secretKey.getEncoded();
                 SecretKeySpec secretKeySpec = new SecretKeySpec(enCodeFormat, "AES");
-                Cipher cipher = Cipher.getInstance("AES");// 创建密码器
+                Cipher cipher = Cipher.getInstance("AES");
+	            // 创建密码器
                 byte[] byteContent = data.getBytes("utf-8");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);// 初始化
-                byte[] result = cipher.doFinal(byteContent);
-                return result; // 加密
+	            // 初始化
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+	            // 加密
+	            return cipher.doFinal(byteContent);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -116,7 +118,7 @@ public class AESSecretUtil {
      * @Data: 2018/7/28 19:12
      * @Modified By:
      */
-    public static String parseByte2HexStr(byte buf[]) {
+    public static String parseByte2HexStr(byte[] buf) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buf.length; i++) {
             String hex = Integer.toHexString(buf[i] & 0xFF);
@@ -136,8 +138,9 @@ public class AESSecretUtil {
      * @Modified By:
      */
     public static byte[] parseHexStr2Byte(String hexStr) {
-        if (hexStr.length() < 1)
-            return null;
+        if (hexStr.length() < 1) {
+	        return null;
+        }
         byte[] result = new byte[hexStr.length() / 2];
         for (int i = 0; i < hexStr.length() / 2; i++) {
             int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);

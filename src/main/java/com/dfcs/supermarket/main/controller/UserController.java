@@ -11,18 +11,12 @@ import com.dfcs.supermarket.main.interceptor.JwtHelper;
 import com.dfcs.supermarket.main.service.IGoodsService;
 import com.dfcs.supermarket.main.service.IGoodsUserService;
 import com.dfcs.supermarket.main.service.IUserService;
-import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -54,20 +48,20 @@ public class UserController {
 
     @GetMapping("/login")
     public BaseResponse<User> user(String mobile, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        String user_agent = request.getHeader("user-agent");
+        String userAgent = request.getHeader("user-agent");
         Long userId = null;
         User dbUser = userService.getOne(new QueryWrapper<User>().eq("user_mobile", mobile));
         User user = null;
         if(null == dbUser){
             user = new User();
             user.setUserMobile(mobile);
-            user.setUserAgent(user_agent);
+            user.setUserAgent(userAgent);
             userId = user.getId();
             userService.save(user);
         }else {
             userId = dbUser.getId();
         }
-        String str = JwtHelper.generateJWT(String.valueOf(userId), mobile, user_agent);
+        String str = JwtHelper.generateJWT(String.valueOf(userId), mobile, userAgent);
         JwtHelper.addToCookie(response,str);
         if(null != dbUser){
             dbUser.setToken(str);
