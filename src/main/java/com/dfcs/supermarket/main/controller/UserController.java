@@ -1,6 +1,5 @@
 package com.dfcs.supermarket.main.controller;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dfcs.supermarket.main.common.BaseResponse;
@@ -49,7 +48,7 @@ public class UserController {
     @GetMapping("/login")
     public BaseResponse<User> user(String mobile, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String userAgent = request.getHeader("user-agent");
-        Long userId = null;
+        Long userId;
         User dbUser = userService.getOne(new QueryWrapper<User>().eq("user_mobile", mobile));
         User user = null;
         if(null == dbUser){
@@ -88,7 +87,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/appointment")
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BaseResponse<String> appointment(
             @RequestBody List<GoodsUser> goodsUsers,
             HttpServletRequest request
@@ -97,11 +96,10 @@ public class UserController {
             String token = request.getHeader("token");
             JSONObject jsonObject = JSONObject.parseObject(JwtHelper.validateLogin(token));
             Long userId = jsonObject.getLong("userId");
-            String pickupCode = "0";
+            String pickupCode;
             do{
                 String random = String.valueOf(Math.random() * 900000 + 100000);
-                String ran = random.substring(0,random.lastIndexOf("."));
-                pickupCode = ran;
+                pickupCode = random.substring(0,random.lastIndexOf("."));
             }
             while(!CollectionUtils.isEmpty(goodsUserService.getBaseMapper().selectList(new QueryWrapper<GoodsUser>().eq("pickup_code",pickupCode).eq("state",1))));
             List<Goods> goodsList = new ArrayList<>();
